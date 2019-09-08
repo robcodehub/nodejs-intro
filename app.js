@@ -1,4 +1,5 @@
 const fs = require('fs');
+const http = require('http');
 
 const readFile = (file) => {
   return new Promise((resolve, reject)=> {
@@ -13,9 +14,9 @@ const readFile = (file) => {
   )}
   )};
 
+http.createServer(()=> {
+  
+});
 
-readFile('./users.json')
-.then( data => console.log('resolve', data))
-.catch( ex => console.log('rejected', ex));
 
 
