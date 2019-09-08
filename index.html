@@ -28,7 +28,8 @@
 
       async componentDidMount() {
         const users = (await axios.get('/api/users')).data;
-        this.setState({users});
+        const user = (await axios.post('/api/users', {name: `curly-${Math.random()}`})).data;
+        this.setState({users: [...user, ...users]});
       }
 
 
@@ -39,7 +40,7 @@
         }
         return (
           <ul>
-            {users.map(user => <li id={user.id}>{user.name}</li>)}
+            {users.map(user => <li key={user.id}>{user.name}</li>)}
           </ul>
         )
       }
