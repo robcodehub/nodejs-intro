@@ -14,8 +14,39 @@
 
   <script type='text/babel'>
     const { render } = ReactDOM;
+    const { Component } = React;
     const root = document.querySelector('#root');
-    render(<hr />, root)
+
+
+    class App extends Component {
+      constructor() {
+        super();
+        this.state = {
+          users: []
+        }
+      }
+
+      async componentDidMount() {
+        const users = (await axios.get('/api/users')).data;
+        this.setState({users});
+      }
+
+
+      render() {
+        const { users } = this.state;
+        if (!users.length) {
+          return <div> No Users Yet...</div>
+        }
+        return (
+          <ul>
+            {users.map(user => <li id={user.id}>{user.name}</li>)}
+          </ul>
+        )
+      }
+    }
+
+
+    render(<App />, root)
 
   </script>
 

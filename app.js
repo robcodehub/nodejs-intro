@@ -15,6 +15,25 @@ const readFile = (file) => {
     }
   )}
   )};
+ 
+  const writeFile = (file, data) => {
+    return new Promise((resolve, reject)=> {
+      fs.writeFile(file, data, (err, data) => {
+        if(err) {
+          reject(err);
+        }
+        else {
+          resolve();
+        }
+      }
+    )})
+  };
+
+
+writeFile('./users.json', JSON.stringify([{ id: 1, name: 'moe' }]))
+.then(() => console.log('success'))
+.catch(() => console.log('failure'));
+
 
 http.createServer((req, res)=> {
 if (req.url === '/api/users') {
@@ -28,11 +47,18 @@ if (req.url === '/api/users') {
     res.write(ex.message);
     res.end();
   })
-} else {
-  res.write('hello world!');
-  res.end();
-}
-}).listen(3000);
+} else if (req.url === '/') {
+    readFile('./index.html')
+    .then(data => {
+      res.write(data);
+      res.end();
+    })
+    .catch( ex => {
+      res.statusCode = 500;
+      res.write(ex.message);
+      res.end();
+})
+}}).listen(3000);
 
 
 
