@@ -15,8 +15,8 @@ const readFile = (file) => {
   )};
 
 http.createServer(()=> {
-  
-});
+
+}).listen(3000);
 
 
 
